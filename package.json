@@ -1,0 +1,21 @@
+{
+  "name": "yys-loading-test",
+  "private": false,
+  "version": "1.0.11",
+  "author": "yyshu",
+  "main": "dist/build.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-legacy": "^6.0.2",
+    "typescript": "~5.7.2",
+    "vite": "^6.2.0"
+  }
+}
