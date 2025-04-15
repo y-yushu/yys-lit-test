@@ -1,9 +1,11 @@
 {
   "name": "yys-loading-test",
   "private": false,
-  "version": "1.0.12",
+  "version": "1.0.13",
   "author": "yyshu",
-  "main": "dist/build.js",
+  "main": "./dist/my-lit-component.umd.js",
+  "module": "./dist/my-lit-component.es.js",
+  "types": "./types/index.d.ts",
   "type": "module",
   "files": [
     "dist",
