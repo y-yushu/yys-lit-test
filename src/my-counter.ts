@@ -1,48 +1,54 @@
-import { LitElement, html, css } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { LitElement, html, css } from 'lit';
+import { customElement, state } from 'lit/decorators.js';
 
-@customElement("my-counter")
-export class MyCounter extends LitElement {
+// 主组件
+@customElement('my-counter')
+export class MyMainCom extends LitElement {
   static styles = css`
-    .counter {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: Arial, sans-serif;
+    :host {
+      display: block;
+      border: 2px solid #333;
+      padding: 16px;
+      border-radius: 8px;
     }
-    button {
-      padding: 5px 10px;
-      cursor: pointer;
+    .main-content {
+      background-color: #f0f0f0;
+      padding: 10px;
     }
-    span {
-      font-size: 16px;
+    slot {
+      display: block;
+      margin-top: 10px;
     }
   `;
 
-  @property({ type: Number })
-  count = 0;
+  @state()
+  private childFeatures: string[] = [];
 
-  increment() {
-    this.count++;
-    this.dispatchEvent(
-      new CustomEvent("count-changed", { detail: this.count })
-    );
-  }
-
-  decrement() {
-    this.count--;
-    this.dispatchEvent(
-      new CustomEvent("count-changed", { detail: this.count })
-    );
+  // 监听子组件注册事件
+  private handleChildRegister(e: CustomEvent) {
+    const feature = e.detail.feature;
+    if (!this.childFeatures.includes(feature)) {
+      this.childFeatures = [...this.childFeatures, feature];
+    }
   }
 
   render() {
     return html`
-      <div class="counter">
-        <button @click=${this.decrement}>-</button>
-        <span>Count: ${this.count}</span>
-        <button @click=${this.increment}>+</button>
+      <div class="main-content">
+        <h2>Main Component</h2>
+        <p>This is the main component's default rendering.</p>
+        ${this.childFeatures.length > 0
+          ? html`
+              <h3>Loaded Child Features:</h3>
+              <ul>
+                ${this.childFeatures.map(
+                  (feature) => html`<li>${feature}</li>`
+                )}
+              </ul>
+            `
+          : html`<p>No child components registered.</p>`}
       </div>
+      <slot @child-register=${this.handleChildRegister}></slot>
     `;
   }
 }
