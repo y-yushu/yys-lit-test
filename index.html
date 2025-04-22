@@ -4,10 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Lit + TS</title>
-    <!-- <script type="module" src="/src/my-counter.ts"></script> -->
     <script type="module" src="/src/index.ts"></script>
+    <style>
+      .box {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 1rem;
+      }
+    </style>
   </head>
   <body>
-    <my-counter></my-counter>
+    <div class="box">
+      <my-counter></my-counter>
+      <my-counter>
+        <my-chil-1></my-chil-1>
+      </my-counter>
+    </div>
   </body>
 </html>

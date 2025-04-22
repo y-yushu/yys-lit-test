@@ -1,20 +1,11 @@
 import { LitElement, html, css } from "lit";
-import { customElement } from "lit/decorators.js";
 
-// 子组件 1
-@customElement("my-chil-1")
-export class MyChil1 extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      background-color: #e0ffe0;
-      padding: 8px;
-      margin: 5px 0;
-    }
-  `;
+export default class MyChil1 extends LitElement {
+  static styles = css``;
 
   connectedCallback() {
     super.connectedCallback();
+    console.log("触发connectedCallback");
     // 触发事件通知主组件
     this.dispatchEvent(
       new CustomEvent("child-register", {
@@ -26,6 +17,19 @@ export class MyChil1 extends LitElement {
   }
 
   render() {
-    return html`<div>Child Component 1</div>`;
+    return html``;
+  }
+
+  // 暴露一个静态方法用于手动注册组件
+  static register() {
+    if (!customElements.get("my-chil-1")) {
+      customElements.define("my-chil-1", MyChil1);
+    }
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "my-chil-1": MyChil1;
   }
 }
