@@ -1,4 +1,4 @@
-import { LitElement } from "lit";
+import { LitElement } from 'lit';
 export default class MyChil1 extends LitElement {
     static styles: import("lit").CSSResult;
     connectedCallback(): void;
@@ -7,6 +7,6 @@ export default class MyChil1 extends LitElement {
 }
 declare global {
     interface HTMLElementTagNameMap {
-        "my-chil-1": MyChil1;
+        'my-chil-1': MyChil1;
     }
 }

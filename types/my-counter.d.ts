@@ -1,28 +1,28 @@
-import { LitElement } from "lit";
+import { LitElement } from 'lit';
 export default class MyCounter extends LitElement {
-    static styles: import("lit").CSSResult;
+    static styles: import("lit").CSSResult[];
     startValue: number;
-    private _count;
+    count: number;
     private _hasChild;
     connectedCallback(): void;
     disconnectedCallback(): void;
     private _handleChildRegister;
-    private _increment;
+    _increment(): void;
     private _decrement;
-    private _dispatchCountChange;
+    _dispatchCountChange(): void;
     render(): import("lit").TemplateResult<1>;
     static register(): void;
     updated(): void;
 }
 declare global {
     interface HTMLElementTagNameMap {
-        "my-counter": MyCounter;
+        'my-counter': MyCounter;
     }
     interface HTMLElementEventMap {
-        "count-changed": CustomEvent<{
+        'count-changed': CustomEvent<{
             count: number;
         }>;
-        "child-register": CustomEvent<{
+        'child-register': CustomEvent<{
             feature: string;
         }>;
     }
