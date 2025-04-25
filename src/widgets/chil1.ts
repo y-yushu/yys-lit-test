@@ -1,6 +1,8 @@
-import { LitElement, html, css } from 'lit'
+import { LitElement, css } from 'lit'
 import MyCounter from '../my-counter'
+import { customElement } from 'lit/decorators.js'
 
+@customElement('my-chil-1')
 export default class MyChil1 extends LitElement {
   static styles = css``
 
@@ -12,7 +14,6 @@ export default class MyChil1 extends LitElement {
       new CustomEvent('child-register', {
         detail: {
           apply: (instance: MyCounter) => {
-            console.log('123123', instance)
             instance._increment = () => {
               instance.count += 2
               instance._dispatchCountChange()
@@ -24,10 +25,6 @@ export default class MyChil1 extends LitElement {
         composed: true
       })
     )
-  }
-
-  render() {
-    return html``
   }
 
   // 暴露一个静态方法用于手动注册组件
