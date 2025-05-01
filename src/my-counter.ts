@@ -1,27 +1,26 @@
 import { LitElement, css, html, unsafeCSS } from 'lit'
 import { customElement, property, state } from 'lit/decorators.js'
-import inlinecss from './index.css?inline'
+import tailwindcss from './index.css?inline'
+// import highlightcss from 'highlight.js/styles/atom-one-dark.css?inline'
 
 @customElement('my-counter')
 export default class MyCounter extends LitElement {
-  static styles = [
-    unsafeCSS(inlinecss),
-    css`
-      /* :host {
-        color: var(--cu-text-color, black);
-      } */
-    `
-  ]
+  static styles = [unsafeCSS(tailwindcss), css``]
 
-  @property({ type: Number, attribute: 'start-value' })
-  startValue = 0
+  @property({ type: String })
+  content = ''
 
   @state()
   count = 0
 
+  renderFunction = {
+    renderH1: (val: string) => {
+      return html`<div class="bg-gray-700 p-4 text-white">${val}</div>`
+    }
+  }
+
   connectedCallback() {
     super.connectedCallback()
-    this.count = this.startValue
     // 监听 child-register 事件
     this.addEventListener('child-register', this._handleChildRegister)
   }
@@ -33,42 +32,25 @@ export default class MyCounter extends LitElement {
 
   private _handleChildRegister(e: CustomEvent) {
     const feature = e.detail.feature
-    console.log(`子组件注册，功能：${feature}`)
+    console.log('子组件注册了一个功能:', feature)
+    const styles = e.detail.styles
+    if (styles) {
+      const styleElement = document.createElement('style')
+      styleElement.textContent = styles
+      this.shadowRoot?.appendChild(styleElement)
+    }
     e.detail.apply(this)
-  }
-
-  _increment() {
-    this.count++
-    this._dispatchCountChange()
-  }
-
-  private _decrement() {
-    this.count--
-    this._dispatchCountChange()
-  }
-
-  _dispatchCountChange() {
-    const event = new CustomEvent('count-changed', {
-      detail: { count: this.count },
-      bubbles: true,
-      composed: true
-    })
-    this.dispatchEvent(event)
   }
 
   render() {
     return html`
-      <div class="flex min-h-28 items-center justify-center space-x-0.5 rounded-lg border border-solid border-gray-300 p-4">
-        <button class="w-8 border border-solid border-gray-300 bg-gray-50 px-2 py-1 active:bg-gray-200" @click=${this._decrement}>-</button>
-        <span class="min-w-8 text-center text-xl font-bold">${this.count}</span>
-        <button class="w-8 border border-solid border-gray-300 bg-gray-50 px-2 py-1" @click=${this._increment}>+</button>
-      </div>
+      <div class="min-h-28 p-4">${this.renderFunction.renderH1(this.content)}</div>
       <slot></slot>
     `
   }
 
   updated() {
-    console.log('触发更新')
+    // console.log('触发更新')
   }
 }
 
